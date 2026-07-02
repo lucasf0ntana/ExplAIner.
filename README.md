@@ -117,8 +117,49 @@ http://127.0.0.1:5000
 ```
 ---
 
+## Banco de dados
+
+Por padrão, o projeto usa SQLite para facilitar o teste local:
+
+```text
+DATABASE_URL=sqlite:///explainer.db
+```
+
+Para usar MySQL, execute o script:
+
+```text
+backend/database/create_database.sql
+```
+
+Depois altere o `.env` para:
+
+```text
+DATABASE_URL=mysql+pymysql://root:sua_senha@localhost:3306/explainer
+```
+
 ## 🐛 Resolução de Problemas Comuns
 
 ### Erro: "Fatal error in launcher: Unable to create process..."
 Esse erro ocorre no Windows quando a pasta do projeto é movida de lugar ou sincronizada no OneDrive. 
 * **Solução:** Nunca use o comando `pip install` diretamente se o erro persistir. Use sempre o prefixo `.\.venv\Scripts\python.exe -m pip install <pacote>`.
+
+
+## Como executar o frontend
+
+Em outro terminal, entre na pasta do frontend:
+
+```bash
+cd frontend
+```
+
+Execute um servidor local:
+
+```bash
+python -m http.server 5500
+```
+
+Acesse:
+
+```text
+http://127.0.0.1:5500
+```
