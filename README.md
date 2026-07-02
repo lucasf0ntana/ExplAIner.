@@ -85,15 +85,16 @@ python -m venv .venv
   ```cmd
   .\.venv\Scripts\activate.bat
   ```
+### 4. Mude o arquivo "env.example.txt" para ".env.example"
 
-### 4. Configurar as Variáveis de Ambiente
+### 5. Configurar as Variáveis de Ambiente
 Crie o arquivo `.env` copiando as configurações de exemplo:
 ```bash
 cp .env.example .env
 ```
 *(Se o comando `cp` não funcionar no CMD do Windows, use: `copy .env.example .env`)*
 
-### 5. Instalar as Dependências
+### 6. Instalar as Dependências
 Para evitar erros de scripts corrompidos (`Fatal error in launcher`), instale as dependências chamando diretamente o executável do Python do ambiente:
 
 ```powershell
@@ -104,7 +105,7 @@ Para evitar erros de scripts corrompidos (`Fatal error in launcher`), instale as
 .\.venv\Scripts\python.exe -m pip install flask flask-sqlalchemy pymysql
 ```
 
-### 6. Executar a Aplicação
+### 7. Executar a Aplicação
 Inicie o servidor Flask utilizando o Python do ambiente virtual:
 ```bash
 .\.venv\Scripts\python.exe app.py
