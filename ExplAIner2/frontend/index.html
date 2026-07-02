@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExplAIner | Cadastro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="pagina">
+        <header class="cabecalho">
+            <div class="marca">
+                <span class="logo">E</span>
+                <div>
+                    <h1>ExplAIner</h1>
+                    <p>Cadastro de aluno</p>
+                </div>
+            </div>
+
+            <nav class="menu-navegacao">
+                <a href="index.html" class="link-navegacao ativo">Cadastro</a>
+                <a href="ler.html" class="link-navegacao">Ler</a>
+                <a href="listar.html" class="link-navegacao">Listar</a>
+                <a href="atualizar.html" class="link-navegacao">Atualizar</a>
+                <a href="deletar.html" class="link-navegacao">Deletar</a>
+            </nav>
+        </header>
+
+<main class="conteudo">
+    <section class="cartao">
+        <div class="titulo-cartao">
+            <h2>Formulário de cadastro</h2>
+            <p>Preencha os dados abaixo para cadastrar um novo aluno.</p>
+        </div>
+
+        <form class="grade-formulario" id="form-cadastro">
+            <label class="campo">
+                <span>Nome completo</span>
+                <input type="text" name="nome" placeholder="Ex.: Ana Souza" required>
+            </label>
+
+            <label class="campo">
+                <span>E-mail</span>
+                <input type="email" name="email" placeholder="ana@email.com" required>
+            </label>
+
+            <label class="campo">
+                <span>Senha</span>
+                <input type="password" name="senha" placeholder="Digite uma senha" required>
+            </label>
+
+            <label class="campo">
+                <span>Data de nascimento</span>
+                <input type="date" name="data_nascimento" required>
+            </label>
+
+            <button type="submit" id="btn-enviar">Cadastrar</button>
+        </form>
+
+        <div id="mensagem-resposta" class="resultado" style="display: none;">
+            <h3 id="resposta-titulo"></h3>
+            <p id="resposta-corpo" class="texto-ajuda"></p>
+        </div>
+    </section>
+</main>
+</div>
+
+<script src="script.js">const API_URL = 'http://127.0.0.1:5000';
+
+document.getElementById('form-cadastro').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const btnEnviar = document.getElementById('btn-enviar');
+    const msgResposta = document.getElementById('mensagem-resposta');
+    const respuestaTitulo = document.getElementById('resposta-titulo');
+    const respostaCorpo = document.getElementById('resposta-corpo');
+
+    btnEnviar.disabled = true;
+    btnEnviar.innerText = 'Cadastrando...';
+
+    const formData = new FormData(form);
+    const dados = {
+        nome: formData.get('nome'),
+        email: formData.get('email'),
+        senha: formData.get('senha'),
+        data_nascimento: formData.get('data_nascimento') || null
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/alunos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
+        });
+
+        const resultado = await response.json();
+
+        msgResposta.style.display = 'block';
+
+        if (response.ok) {
+            respuestaTitulo.innerText = '✨ Cadastro Realizado!';
+            respuestaTitulo.style.color = '#16a34a';
+            respostaCorpo.innerText = `Aluno(a) ${resultado.nome} foi cadastrado(a) com sucesso com o ID: ${resultado.id_aluno}.`;
+            form.reset();
+        } else {
+            respuestaTitulo.innerText = '⚠️ Ops, algo deu errado';
+            respuestaTitulo.style.color = '#dc2626';
+            respostaCorpo.innerText = resultado.erro || 'Não foi possível realizar o cadastro.';
+        }
+
+    } catch (error) {
+        msgResposta.style.display = 'block';
+        respuestaTitulo.innerText = '❌ Erro de Conexão';
+        respuestaTitulo.style.color = '#dc2626';
+        respostaCorpo.innerText = 'Não foi possível conectar ao servidor backend. Verifique se a API Flask está rodando.';
+        console.error(error);
+    } finally {
+        btnEnviar.disabled = false;
+        btnEnviar.innerText = 'Cadastrar';
+    }
+});</script>
+    
+</body>
+</html>
