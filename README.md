@@ -110,6 +110,11 @@ Inicie o servidor Flask utilizando o Python do ambiente virtual:
 .\.venv\Scripts\python.exe app.py
 ```
 
+A API ficará disponível em:
+
+```text
+http://127.0.0.1:5000
+```
 ---
 
 ## 🐛 Resolução de Problemas Comuns
