@@ -38,7 +38,6 @@ O projeto adota uma arquitetura robusta baseada no padrão **Service Pattern / C
 | **GET** | `/alunos/<id>` | Busca os detalhes específicos de um único aluno por ID | `200 OK` / `404` |
 | **PUT** | `/alunos/<id>` | Atualiza dados cadastrais de forma parcial ou total do aluno | `200 OK` / `404` |
 | **DELETE** | `/alunos/<id>` | Remove de forma permanente o registro do aluno do sistema | `204 No Content` |
-| **GET** | `/alunos/<id>/historico` | Retorna o histórico de desafios realizados pelo aluno | Em desenvolvimento |
 
 ---
 
@@ -56,17 +55,65 @@ A interface gráfica adota um design minimalista e moderno baseado em cartões c
 
 ## Como Executar o Projeto
 
-### Pré-requisitos
-* Python 3.8 ou superior instalado.
-* Servidor MySQL ativo (via XAMPP, WampServer ou instalação nativa).
+Antes de começar, certifique-se de ter instalado em sua máquina:
+* **Python 3.x**
+* **Git** (opcional)
 
-### 1. Configuração do Banco de Dados
-1. Abra o seu gerenciador de banco de dados MySQL (ex: phpMyAdmin ou MySQL Workbench).
-2. Crie uma nova base de dados chamada `ExplAIner`.
-3. Importe e execute o script contido no arquivo `create_database.sql` para gerar todas as tabelas e relacionamentos necessários.
+---
 
-### 2. Configuração do Backend (API Flask)
-1. Navegue até a pasta raiz do projeto backend através do terminal.
-2. Crie um ambiente virtual para isolar as dependências:
-   ```bash
-   python -m venv venv
+## 💻 Passo a Passo para Rodar o Projeto
+
+Siga os comandos abaixo no seu terminal (Prompt de Comando ou PowerShell):
+
+### 1. Acessar a pasta do backend
+```bash
+cd backend
+```
+
+### 2. Criar o Ambiente Virtual (.venv)
+Cria um ambiente isolado para evitar conflitos de bibliotecas globais:
+```bash
+python -m venv .venv
+```
+
+### 3. Ativar o Ambiente Virtual
+* **No Windows (PowerShell):**
+  ```powershell
+  .\.venv\Scripts\activate
+  ```
+* **No Windows (Prompt de Comando - CMD):**
+  ```cmd
+  .\.venv\Scripts\activate.bat
+  ```
+
+### 4. Configurar as Variáveis de Ambiente
+Crie o arquivo `.env` copiando as configurações de exemplo:
+```bash
+cp .env.example .env
+```
+*(Se o comando `cp` não funcionar no CMD do Windows, use: `copy .env.example .env`)*
+
+### 5. Instalar as Dependências
+Para evitar erros de scripts corrompidos (`Fatal error in launcher`), instale as dependências chamando diretamente o executável do Python do ambiente:
+
+```powershell
+# Instalar pacotes do arquivo de requerimentos
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# Garantir a instalação dos pacotes principais e drivers de banco
+.\.venv\Scripts\python.exe -m pip install flask flask-sqlalchemy pymysql
+```
+
+### 6. Executar a Aplicação
+Inicie o servidor Flask utilizando o Python do ambiente virtual:
+```bash
+.\.venv\Scripts\python.exe app.py
+```
+
+---
+
+## 🐛 Resolução de Problemas Comuns
+
+### Erro: "Fatal error in launcher: Unable to create process..."
+Esse erro ocorre no Windows quando a pasta do projeto é movida de lugar ou sincronizada no OneDrive. 
+* **Solução:** Nunca use o comando `pip install` diretamente se o erro persistir. Use sempre o prefixo `.\.venv\Scripts\python.exe -m pip install <pacote>`.
