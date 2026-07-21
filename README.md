@@ -17,39 +17,84 @@
 
 ---
 
-## Arquitetura e Estrutura do Backend
+## Visão geral
 
-O projeto adota uma arquitetura robusta baseada no padrão **Service Pattern / Clean Architecture**, separando responsabilidades de forma clara e isolada:
-* **Models:** Representação declarativa das tabelas estruturais e interações diretas de persistência com o banco de dados.
-* **Services:** Camada isolada que concentra as regras de negócio complexas do ecossistema de gamificação.
-* **Controllers (Blueprints):** Controladores de rotas encarregados de expor os endpoints da API HTTP e gerir as requisições/respostas JSON.
+Projeto de API Flask com frontend estático para um sistema de gamificação educacional.
+O backend serve o frontend diretamente a partir da pasta `frontend/` e expõe rotas CRUD para as principais models.
 
-### Modelos de Dados Implementados (Models)
-1. **Aluno (`alunos`):** Mapeamento completo contendo os dados cadastrais cruciais, pontuação acumulada (`pontos`) e a ofensiva de dias ativos (`foguinho`).
-2. *Estrutura de tabelas prontas via SQL (Próximos Mapeamentos):* `Tema`, `Questao`, `Desafio`, `desafio_questao`, `aluno_desafio` e `Ranking`.
+## Models implementadas
 
-### Rotas da API (Endpoints)
+- `Aluno`
+- `Tema`
+- `Desafio`
+- `Questao`
+- `Ranking`
+- `AlunoDesafio` (suporte backend)
+- `DesafioQuestao` (suporte backend)
 
-#### Módulo de Alunos (`aluno_controller`)
-| Método | Rota | Descrição | Status HTTP |
-| :--- | :--- | :--- | :--- |
-| **POST** | `/alunos` | Cadastra um novo aluno no sistema (valida duplicidade de e-mail) | `201 Created` |
-| **GET** | `/alunos` | Lista todos os alunos cadastrados com as respetivas pontuações | `200 OK` |
-| **GET** | `/alunos/<id>` | Busca os detalhes específicos de um único aluno por ID | `200 OK` / `404` |
-| **PUT** | `/alunos/<id>` | Atualiza dados cadastrais de forma parcial ou total do aluno | `200 OK` / `404` |
-| **DELETE** | `/alunos/<id>` | Remove de forma permanente o registro do aluno do sistema | `204 No Content` |
+## Rotas principais implementadas
 
----
+- `/` - página inicial do frontend
+- `/api` - documentação simples da API
 
-## Funcionalidades do Frontend
+### Aluno
+- `GET /alunos`
+- `GET /alunos/<id>`
+- `POST /alunos`
+- `PUT /alunos/<id>`
+- `DELETE /alunos/<id>`
 
-A interface gráfica adota um design minimalista e moderno baseado em cartões centralizados estruturados com CSS Grid e Flexbox. Toda a comunicação com a API Flask ocorre de forma assíncrona por meio de requisições `fetch`.
+### Tema
+- `GET /temas`
+- `POST /temas`
+- `PUT /temas/<id_tema>`
+- `DELETE /temas/<id_tema>`
 
-* **Cadastro (`index.html` + `script.js`):** Captação de dados dinâmicos com envio direto via JSON. O campo ID foi removido da interface visual, delegando a responsabilidade de autoincremento ao banco de dados.
-* **Consulta (`ler.html` + `ler.js`):** Campo de busca por ID numérico que renderiza em tempo real um painel estilizado com o Nome, E-mail, Ofensiva (Foguinho 🔥) e Pontuação (✨) do aluno.
-* **Listagem (`listar.html` + `listar.js`):** Tabela integrada ao layout padrão que consome o endpoint de listagem global para apresentar o panorama completo dos estudantes salvos.
-* **Edição (`atualizar.html` + `atualizar.js`):** Formulário inteligente que envia para a API apenas os campos que o utilizador modificou, prevenindo sobreescritas acidentais.
-* **Remoção (`deletar.html` + `deletar.js`):** Painel de ação crítica com trigger de aviso visual e caixa de dupla confirmação nativa do navegador para deleções seguras.
+### Desafio
+- `GET /desafio`
+- `GET /desafio/nome/<nome>`
+- `POST /desafio`
+- `PUT /desafio/<id_desafio>`
+- `DELETE /desafio/<id_desafio>`
+
+### Questao
+- `GET /questoes`
+- `POST /questoes`
+- `PUT /questoes/<id_questao>`
+- `DELETE /questoes/<id_questao>`
+
+### Ranking
+- `GET /ranking`
+- `POST /ranking`
+- `PUT /ranking/<id_ranking>`
+- `DELETE /ranking/<id_ranking>`
+
+### Relacionamentos adicionais (backend)
+- `POST /alunos/desafios`
+- `GET /alunos/<id_aluno>/desafios`
+- `PUT /alunos/<id_aluno>/desafios/<id_desafio>`
+- `POST /desafios/<id_desafio>/questoes/<id_questao>`
+- `GET /desafios/<id_desafio>/questoes`
+- `DELETE /desafios/<id_desafio>/questoes/<id_questao>`
+
+## Telas/front-end implementadas
+
+- `index.html` - cadastro de aluno
+- `ler.html` - buscar aluno por ID
+- `listar.html` - listar alunos
+- `atualizar.html` - atualizar aluno
+- `deletar.html` - excluir aluno
+- `temas.html` - cadastrar e listar temas
+- `desafios.html` - cadastrar e listar desafios
+- `questoes.html` - cadastrar e listar questões
+- `ranking.html` - cadastrar e listar ranking
+
+## Observações
+
+- O backend serve os arquivos estáticos do frontend. Para rodar o projeto, basta iniciar o backend.
+- As rotas CRUD do backend existem para todas as models principais.
+- No frontend, as funcionalidades de criar, listar, atualizar e excluir estão disponíveis para `Aluno`, `Tema`, `Desafio`, `Questao` e `Ranking`.
+- O backend também possui endpoints adicionais para os relacionamentos `AlunoDesafio` e `DesafioQuestao`, embora não existam telas específicas para esses relacionamentos no frontend.
 
 ---
 
